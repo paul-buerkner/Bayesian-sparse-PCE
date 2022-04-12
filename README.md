@@ -12,13 +12,13 @@ In the code, we are using partially different notation than in the paper,
 as a result of how this project has evolved over time. Below, we list the
 main concepts and their corresponding notation in paper and code:
 
-- Number of input variables: $N$ in the paper, `M` in the code
-- Number of training points: $T$ in the paper, `N` or `mc` in the code
-- Maximal polynomial degree: $d$ in the paper, `p` in the code
-- Total number of polynomials: $M$ in the paper, `P` in the code
-- Input variables: $\omega$ in the paper, `x` in the code
-- Evaluated polynomial matrix: $\Psi$ in the paper, `X` in the code
-- Polynomials of the PCE: `c` in the paper, `b` in the code
+- Number of input variables: *N* in the paper, `M` in the code
+- Number of training points: *T* in the paper, `N` or `mc` in the code
+- Maximal polynomial degree: *d* in the paper, `p` in the code
+- Total number of polynomials: *M* in the paper, `P` in the code
+- Input variables: <img src="https://render.githubusercontent.com/render/math?math=\omega"> in the paper, `x` in the code
+- Evaluated polynomial matrix: <img src="https://render.githubusercontent.com/render/math?math=\Psi"> in the paper, `X` in the code
+- Polynomials of the PCE: *c* in the paper, `b` in the code
 
 
 ## References
