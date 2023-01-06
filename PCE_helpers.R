@@ -304,6 +304,50 @@ df_poly_degree <- function(fit, p, M, variable = "^b_P", digits = 2) {
   df
 }
 
+# compute the projpred search path via the L1 regularization approach
+# code tested with projpred version 2.2.2
+projpred_L1_search_path <- function(fit, nterms_max = NULL,
+                                    lambda_min_ratio = 1e-5, nlambda = 150,
+                                    thresh = 1e-6, penalty = NULL,
+                                    ...) {
+  
+  # projpred::get_refmodel is currently quite slow for brms models with many 
+  # predictors due to inefficiencies in brms (formulas are parsed too often)
+  # this inefficiency is unrelated to projpred
+  refmodel <- projpred::get_refmodel(fit, ...)
+  p_ref <- projpred:::.get_refdist(refmodel, nclusters = 1)
+  mm <- model.matrix(refmodel$formula, data = refmodel$fetch_data())
+  mm <- mm[, colnames(mm) != "(Intercept)", drop = FALSE]
+  
+  # roughly follows the code in projpred:::search_L1_surrogate
+  search <- projpred:::glm_elnet(
+    x = mm, y = p_ref$mu, family = refmodel$family,
+    lambda_min_ratio = lambda_min_ratio, nlambda = nlambda,
+    pmax = ncol(mm) + 1, pmax_strict = FALSE,
+    weights = refmodel$wobs, intercept = refmodel$intercept, 
+    obsvar = p_ref$var, penalty = penalty, thresh = thresh
+  )
+  ## sort the variables according to the order in which they enter the model in
+  ## the L1-path
+  entering_indices <- apply(search$beta != 0, 1, function(num) {
+    which(num)[1]  # NA for those that did not enter
+  })
+  ## variables that entered at some point
+  entered_variables <- c(seq_len(NCOL(mm)))[!is.na(entering_indices)]
+  ## variables that did not enter at any point
+  notentered_variables <- c(seq_len(NCOL(mm)))[is.na(entering_indices)]
+  order_of_entered <- sort(entering_indices, index.return = TRUE)$ix
+  out <- c(entered_variables[order_of_entered], notentered_variables)
+  if (!is.null(nterms_max)) {
+    out <- out[seq_len(nterms_max)]
+  }
+  out
+}
+
+# Only relevant if you also want to get the projected submodels.
+# If you only want to get the search path, use projpred_search_path().
+# However, the latter uses internal functions of projpred that may change
+# without notice. run_varsel is safer as it only uses the external interface.
 run_varsel <- function(fit, cv = FALSE, file = NULL, ...) {
   if (!is.null(file) && file.exists(file)) {
     return(read_rds(file))

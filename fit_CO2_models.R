@@ -93,12 +93,14 @@ foreach(j = seq_len(nrow(design)), .export = exports) %dopar% {
   file_fit_varsel_25 <- paste0("models/fit_CO2_d", d, "_co", i, "_varsel")
   if (!file.exists(file_fit_varsel_50) || !file.exists(file_fit_varsel_25)) {
     # don't store varsel but still avoid rerunning it
-    varsel <- run_varsel(fit_CO2, nterms_max = 50, method = "L1")
-    plot(varsel, stats = c("elpd", "rmse"))
-    idx_varsel_50 <- solution_terms(varsel)
-    idx_varsel_50 <- as.numeric(sub("^[^[:digit:]]+", "", idx_varsel_50))
+    # varsel <- run_varsel(fit_CO2, nterms_max = 50, method = "L1")
+    # plot(varsel, stats = c("elpd", "rmse"))
+    # idx_varsel_50 <- solution_terms(varsel)
+    # idx_varsel_50 <- as.numeric(sub("^[^[:digit:]]+", "", idx_varsel_50))
+    # idx_varsel_25 <- idx_varsel_50[1:25]
+    # rm(varsel)
+    idx_varsel_50 <- projpred_L1_search_path(fit_CO2, nterms_max = 50)
     idx_varsel_25 <- idx_varsel_50[1:25]
-    rm(varsel)
   }
   
   # we decided to not include this method in the paper because

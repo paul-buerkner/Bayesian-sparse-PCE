@@ -106,14 +106,12 @@ foreach(j = J, .export = exports) %dopar% {
   idx_phi_sel <- select_poly_R2D2(fit_sobol, thres = 0, nterms = nterms)
   file_fit_varsel <- paste0("models/fit_sobol_mc", mc, "_M", M, "_varsel")
   if (!file.exists(file_fit_varsel)) {
-    # don't store varsel but still avoid rerunning it
-    varsel <- run_varsel(
-      fit_sobol, nterms_max = nterms,
-      method = "L1", ndraws = 100, verbose = TRUE
-    )
-    idx_varsel <- solution_terms(varsel)
-    idx_varsel <- as.numeric(sub("^[^[:digit:]]+", "", idx_varsel))
-    rm(varsel)
+    # no need to run full varsel here; getting the search path is enough
+    # varsel <- run_varsel(fit_sobol, nterms_max = nterms, method = "L1")
+    # idx_varsel <- solution_terms(varsel)
+    # idx_varsel <- as.numeric(sub("^[^[:digit:]]+", "", idx_varsel))
+    # rm(varsel)
+    idx_varsel <- projpred_L1_search_path(fit_sobol, nterms_max = nterms)
   }
   rm(fit_sobol)
   
