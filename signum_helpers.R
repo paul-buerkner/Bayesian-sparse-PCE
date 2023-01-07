@@ -11,7 +11,7 @@ signum_sd <- function()  {
 
 poly_signum <- function(path_poly = "data/signum_function/OrthonormalBasis.txt", ...) {
   read.table(path_poly) %>%
-    apply(1, as.polynomial)
+    apply(1, polynom::as.polynomial)
 }
 
 PCE_signum <- function(x, p = 10, idx = NULL, ...) {

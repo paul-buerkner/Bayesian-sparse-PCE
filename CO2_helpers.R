@@ -8,11 +8,11 @@ CO2_sd <- function(s = NA)  {
 
 
 poly1 <- read.table("data/CO2_Response/npc_0_10.dat") %>%
-  apply(1, as.polynomial)
+  apply(1, polynom::as.polynomial)
 poly2 <- read.table("data/CO2_Response/npc_2_10.dat") %>%
-  apply(1, as.polynomial)
+  apply(1, polynom::as.polynomial)
 poly3 <- read.table("data/CO2_Response/npc_3_10.dat") %>%
-  apply(1, as.polynomial)
+  apply(1, polynom::as.polynomial)
 
 
 PCE_CO2 <- function(x1, x2, x3, p = 10, idx = NULL, scale = FALSE) {
