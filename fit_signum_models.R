@@ -1,13 +1,9 @@
 library(dplyr)
 library(tidyr)
-# library(ggplot2)
 library(foreach)
 library(doParallel)
 library(orthopolynom)
 # library(SobolSequence)
-# options(width = 100)
-# theme_set(theme_default())
-# cmdstanr::set_cmdstan_path("/scratch/work/burknep1/cmdstanr/cmdstan-2.26.1")
 source("PCE_helpers.R")
 source("signum_helpers.R")
 

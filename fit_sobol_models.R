@@ -4,7 +4,6 @@ library(foreach)
 library(doParallel)
 library(orthopolynom)
 library(SobolSequence)
-# cmdstanr::set_cmdstan_path("/scratch/work/burknep1/cmdstanr/cmdstan-2.26.1")
 source("PCE_helpers.R")
 source("sobol_helpers.R")
 
