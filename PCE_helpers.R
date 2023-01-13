@@ -212,11 +212,13 @@ plot_poly_degree <- function(fit, p, M, variable = "^b_P") {
   # order <- factor(order, levels = min(order):max(order))
   sobol <- PCE_sobol_coef(fit, variable = variable) 
   sobol_mean <- colMeans(sobol)
-  sobol_lower <- apply(sobol, 2, quantile, probs = 0.025)
-  sobol_upper <- apply(sobol, 2, quantile, probs = 0.975)
+  sobol_lower <- apply(sobol, 2, quantile, probs = 0.01)
+  sobol_upper <- apply(sobol, 2, quantile, probs = 0.99)
   data.frame(order, sobol_mean, sobol_lower, sobol_upper) %>%
     ggplot(aes(order, sobol_mean, ymin = sobol_lower, ymax = sobol_upper)) +
-    geom_pointrange(position = position_jitter(width = 0.1)) +
+    geom_pointrange(
+      position = position_jitter(width = 0.1),
+      size = 0.15) +
     ylab("Sobol index") +
     xlab("Joint polynomial degree")
 }
@@ -238,8 +240,8 @@ plot_sobol_coef_degree <- function(fit, yintercept, variable = "^b_P") {
     group_by(key) %>%
     summarise(
       mean = mean(value), 
-      lower = quantile(value, probs = 0.025),
-      upper = quantile(value, probs = 0.975),
+      lower = quantile(value, probs = 0.01),
+      upper = quantile(value, probs = 0.99),
       prob = mean(value > yintercept)
     ) %>%
     identity()
@@ -257,7 +259,7 @@ plot_sobol_coef_degree <- function(fit, yintercept, variable = "^b_P") {
   
   sobol_cumsum %>%
     ggplot(aes(key, mean, ymin = lower, ymax = upper)) +
-    geom_pointrange() +
+    geom_pointrange(size = 0.15) +
     geom_hline(yintercept = yintercept) +
     geom_vline(xintercept = xintercept) +
     ylab("Total Sobol index") +

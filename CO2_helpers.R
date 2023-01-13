@@ -35,3 +35,29 @@ PCE_CO2 <- function(x1, x2, x3, p = 10, idx = NULL, scale = FALSE) {
   }
   out
 }
+
+# scale CO2 input parameters
+# formulas provided by Ilja
+scale_CO2_input_parameters <- function(x) {
+  # injection rate
+  sday = 24*3600
+  drate = 1600
+  qco2 = drate/  sday
+  rb = 500
+  Bar2Pa = 1e5
+  Pmax = 320 * Bar2Pa
+  K = 2e-14
+  lambda = 1e4
+  yScale = (Pmax-Bar2Pa*300)/(qco2*log(rb))*(lambda*K)
+  x[, 1] = (x[, 1] + 1) * (yScale * qco2)
+  x[, 1] = x[, 1] * 10^4
+  
+  # x[, 2] is unused by us
+  
+  # x[, 3] (power theta) does not need to be scaled
+  
+  # porosity
+  x[, 4] = x[, 4] * 0.2 + 0.1
+  
+  x
+}

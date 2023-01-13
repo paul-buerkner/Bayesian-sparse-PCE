@@ -1,9 +1,35 @@
 library(ggplot2)
 library(patchwork)
 library(dplyr)
+library(latex2exp)
 source("plot_helpers.R")
+source("CO2_helpers.R")
 theme_set(theme_bw())
 
+# show distribution of input parameters
+IP <- read.table("data/CO2_response/InputParameters.txt") %>%
+  scale_CO2_input_parameters()
+
+gg_ir <- ggplot(IP, aes(V1, ..density..)) +
+  geom_histogram(color = "black", fill = "lightgrey") +
+  xlab(TeX("Injection rate  $\\times 10^{-4}$")) +
+  ylab("Probability")
+
+gg_rpd <- ggplot(IP, aes(V3, ..density..)) +
+  geom_histogram(color = "black", fill = "lightgrey") +
+  xlab("Relative permeability degree") +
+  ylab("Probability")
+
+gg_rp <- ggplot(IP, aes(V4, ..density..)) +
+  geom_histogram(color = "black", fill = "lightgrey") +
+  xlab("Reservoir porosity") +
+  ylab("Probability")
+
+gg_ir + gg_rpd + gg_rp
+ggsave("plots/CO2_input_parameters.jpg", width = 8, height = 2.5)
+
+
+# start processing simulation results
 CO2_summary <- readRDS("CO2_summary.rds") %>%
   mutate(Prior = "R2D2(0.5, 2)")
 

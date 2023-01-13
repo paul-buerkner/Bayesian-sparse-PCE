@@ -67,7 +67,7 @@ plot(conditional_effects_sobol(fit_M8_varsel, "x1s", a = a)) +
 plot(plot_poly_degree(fit_M4_varsel, p = 10, M = 4) +
        scale_x_continuous(breaks = 1:10, limits = c(1, 10.3))) +
   plot(plot_sobol_coef_degree(fit_M4_varsel, yintercept = sobol_sd_num(a)))
-# ggsave("plots/sobol_poly_mc300_M4_varsel.jpg", width = 8, height = 3)
+ggsave("plots/sobol_poly_mc300_M4_varsel.jpg", width = 8, height = 3)
 
 # table for the most important polynomials and the degrees
 df_M4_varsel <- df_poly_degree(fit_M4_varsel, p = 10, M = 4, digits = 3)

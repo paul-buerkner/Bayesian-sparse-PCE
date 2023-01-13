@@ -40,11 +40,11 @@ gg_beta <-
   geom_polygon(data = df_beta_shade, alpha = 0.7) +
   scale_fill_viridis_d() +
   xlab(expression(R^2)) +
-  ylab("") +
+  ylab("Density") +
   theme(
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank(),
-    axis.line.y = element_blank(),
+    # axis.text.y = element_blank(),
+    # axis.ticks.y = element_blank(),
+    # axis.line.y = element_blank(),
     legend.position = "none"
   )
 
@@ -74,12 +74,12 @@ gg_beta_prime <-
   geom_polygon(data = df_beta_prime_shade, alpha = 0.7) +
   scale_fill_viridis_d() +
   xlab(expression(tau^2)) +
-  ylab("") +
+  ylab("Density") +
   labs(fill = TeX("($zeta$, $nu$):")) +
   theme(
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank(),
-    axis.line.y = element_blank(),
+    # axis.text.y = element_blank(),
+    # axis.ticks.y = element_blank(),
+    # axis.line.y = element_blank(),
     legend.position = "bottom",
     legend.margin=margin(l = -7, t = -0.3, unit='cm')
   )

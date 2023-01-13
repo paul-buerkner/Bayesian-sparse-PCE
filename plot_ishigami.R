@@ -22,7 +22,8 @@ ggsave("plots/ishigami_pairs_small.jpg", gg_pairs, width = 10, height = 7)
 
 
 mcmc_plot(fit_ref, variable = var_ref, type = "trace",
-          facet_args = list(nrow = 1))
+          facet_args = list(nrow = 1)) + 
+  xlab("Post-warmup iteration")
 ggsave("plots/ishigami_trace_small.jpg", width = 10, height = 3)
 
 
@@ -36,10 +37,14 @@ ce2 <- conditional_effects_ishigami(fit_varsel, "x2s", a = a, b = b) +
 ce3 <- conditional_effects_ishigami(fit_varsel, "x3s", a = a, b = b) +
   labs(x = expression(omega[3]~"(scaled)"))
 ce4 <- conditional_effects_ishigami(fit_varsel, "x1s:x3s", a = a, b = b) +
+  scale_color_viridis_d() + 
+  scale_fill_viridis_d() + 
   labs(x = expression(omega[1]~"(scaled)"),
        color = expression(omega[3]~"(scaled)"), 
        fill = expression(omega[3]~"(scaled)"))
 ce5 <- conditional_effects_ishigami(fit_varsel, "x3s:x1s", a = a, b = b) +
+  scale_color_viridis_d() + 
+  scale_fill_viridis_d() + 
   labs(x = expression(omega[3]~"(scaled)"),
        color = expression(omega[1]~"(scaled)"), 
        fill = expression(omega[1]~"(scaled)"))
@@ -49,7 +54,7 @@ ggsave("plots/ishigami_ce_small_varsel.jpg", width = 8, height = 5)
 
 
 plot(plot_poly_degree(fit_varsel, p = p, M = M)) +
-plot(plot_sobol_coef_degree(fit_varsel, yintercept = ishigami_sd(a, b)))
+  plot(plot_sobol_coef_degree(fit_varsel, yintercept = ishigami_sd(a, b)))
 
 ggsave("plots/ishigami_poly_small_varsel.jpg", width = 8, height = 3)
 
